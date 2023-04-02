@@ -67,20 +67,22 @@ namespace IPSExtractor
                     data = binaryReader.ReadBytes(size);
                 }
 
-                var binaryFile = Path.GetFileNameWithoutExtension(inputFile) + $"_patch{patchIndex++}.bin";
+                var binaryFile = Path.GetFileNameWithoutExtension(inputFile) + $"_patch{patchIndex}.bin";
                 var binaryFilePath = Path.Combine(outputPath, binaryFile);
                 if (File.Exists(binaryFilePath))
                 {
                     File.Delete(binaryFilePath);
                 }
 
-                var asmFile = Path.GetFileNameWithoutExtension(inputFile) + $"_patch{patchIndex++}.asm";
+                var asmFile = Path.GetFileNameWithoutExtension(inputFile) + $"_patch{patchIndex}.asm";
                 var asmFilePath = Path.Combine(outputPath, asmFile);
                 if (File.Exists(asmFilePath))
                 {
                     File.Delete(asmFilePath);
                 }
                 File.WriteAllBytes(binaryFilePath, data);
+
+                patchIndex++;
 
                 var stringWriter = new StringWriter();
                 var disasm = new SharpDisasm.Disassembler(data, SharpDisasm.ArchitectureMode.x86_32, 0, true);
